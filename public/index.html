@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>归档分页校对台</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div>
+        <h1>归档分页校对台</h1>
+        <p class="lede">
+          两处本地归档服务：一边按<strong>扫描页序</strong>，一边按<strong>印刷页码</strong>；偶尔插入一页<strong>勘误</strong>。
+          采集器保存原件版本，校对进程维护页的对应关系，检索索引要等对应关系确认才换版。
+        </p>
+      </div>
+      <div class="top-actions">
+        <label class="mode">
+          <span>复用策略</span>
+          <select id="mode">
+            <option value="reuse">逐页复用 pageId</option>
+            <option value="rebuild">整件重建文档标识</option>
+          </select>
+        </label>
+        <button id="run-demo" class="primary" type="button">一次运行：采集两套分页 + 插入勘误 + 对照索引</button>
+        <button id="reset" type="button" class="ghost">重置本地样例</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="panel" id="controls">
+        <h2>分步操作</h2>
+        <div class="actions">
+          <button data-action="capture" type="button">采集两套分页</button>
+          <button data-action="confirm" type="button">确认页对应关系</button>
+          <button data-action="publish" type="button">换版检索索引</button>
+          <button data-action="errata" type="button">插入勘误页</button>
+          <button data-action="compare" type="button">对照页码索引</button>
+        </div>
+        <form id="errata-form" class="errata-form">
+          <label>馆藏<select id="errata-item"></select></label>
+          <label>锚点页码<input id="errata-page" value="2" /></label>
+          <label class="grow">勘误正文<input id="errata-text" value="补页：第二页图例中的“双线”应读作“虚线”。" /></label>
+        </form>
+        <form id="search-form" class="search-form">
+          <label class="grow">检索生效索引<input id="search-q" placeholder="试：港区 / 渡口 / 勘误" /></label>
+          <button type="submit">检索</button>
+        </form>
+        <p class="hint">
+          索引换版前检索会被拒绝；插入勘误后须重新确认对应关系，逐页复用会保留旧 pageId，整件重建会更换文档标识但引用仍按 pageId 解析。
+        </p>
+      </section>
+
+      <section class="panel evidence" data-evidence-result>
+        <div class="evidence-head">
+          <h2>业务结果</h2>
+          <div class="evidence-meta">
+            <span id="op-badge" class="badge">尚无操作</span>
+            <span id="digest-badge" class="badge mono">digest —</span>
+          </div>
+        </div>
+        <div id="result-body" class="result-body">
+          <p class="empty">点上方“一次运行”或分步按钮；这里会显示操作前后的可核对结果。</p>
+        </div>
+      </section>
+
+      <section class="grid">
+        <div class="panel">
+          <h2>两套分页</h2>
+          <div id="feeds"></div>
+        </div>
+        <div class="panel">
+          <h2>页码对照与索引</h2>
+          <div id="compare"></div>
+        </div>
+        <div class="panel">
+          <h2>引用保底</h2>
+          <div id="citations"></div>
+        </div>
+        <div class="panel">
+          <h2>索引版本</h2>
+          <div id="versions"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>最近操作（前后摘要）</h2>
+        <div id="ops"></div>
+      </section>
+    </main>
+
+    <footer>
+      <span>本地样例，不连接外部服务。状态保存在 <code>data/state.json</code>。</span>
+    </footer>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

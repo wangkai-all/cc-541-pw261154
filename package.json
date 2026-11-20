@@ -1,0 +1,13 @@
+{
+  "name": "archive-paging-desk",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local archive paging reconciliation desk: two scan feeds, an errata insertion, mapping-gated search indexes, and citation preservation.",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
